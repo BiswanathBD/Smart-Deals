@@ -6,7 +6,7 @@ import { Link } from "react-router";
 
 const Banner = () => {
   return (
-    <div className="bg-white/5 relative">
+    <div className="bg-white/2 relative">
       <Container>
         <div className="p-4 md:p-10 lg:p-20 text-center mx-auto">
           {/* bg left */}
@@ -44,7 +44,7 @@ const Banner = () => {
                 <CiSearch></CiSearch>
               </button>
             </form>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-wrap gap-4 justify-center pt-8">
               <Link to={"/allProducts"} className="btn-primary rounded-lg!">
                 View All Products
               </Link>
