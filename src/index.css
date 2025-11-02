@@ -1,0 +1,30 @@
+@import "tailwindcss";
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+
+body {
+  font-family: "Inter", sans-serif;
+  background: linear-gradient(to right, rgb(30, 25, 40), rgb(15, 20, 14));
+  color: white;
+}
+nav a {
+  font-weight: 500;
+  text-align: center;
+}
+nav a:hover {
+  color: #ad46ff;
+  transition: all 0.2s ease;
+}
+nav .active {
+  font-weight: 600;
+  color: #ad46ff;
+}
+.btn-primary {
+  padding: 8px 20px;
+  background: linear-gradient(to right, #ac46ff77, #ffc0cb80);
+  border-radius: 20px;
+  font-weight: 600;
+}
+button, a {
+  cursor: pointer;
+}
