@@ -23,13 +23,13 @@ const AllProducts = () => {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: { staggerChildren: 0.15, duration: 0.6, ease: "easeOut" },
+      transition: { staggerChildren: 0.15, duration: 1, ease: "easeOut" },
     },
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 40, scale: 0.98 },
-    visible: { opacity: 1, y: 0, scale: 1 },
+    hidden: { opacity: 0, y: 10},
+    visible: { opacity: 1, y: 0},
   };
   return (
     <Container>

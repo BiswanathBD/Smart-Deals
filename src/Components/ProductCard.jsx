@@ -44,7 +44,7 @@ const ProductCard = ({ product }) => {
         {/* View Details Button */}
         <Link
           to={`/products/${_id}`}
-          className="mt-auto inline-block text-center py-2 px-4 bg-gradient-to-r from-[#ac46ff77] to-[#ffc0cb80] text-white rounded-lg font-semibold hover:from-[#ac46ff] hover:to-[#ffc0cb] transition-colors duration-300"
+          className="mt-auto inline-block text-center py-2 px-4 bg-linear-to-r from-[#ac46ff77] to-[#ffc0cb80] text-white rounded-lg font-semibold hover:from-[#ac46ff] hover:to-[#ffc0cb]"
         >
           View Details
         </Link>

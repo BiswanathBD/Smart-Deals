@@ -67,7 +67,7 @@ const Footer = () => {
           {/* categories */}
           <div className="w-fit">
             <p className="font-semibold text-center text-lg text-purple-500">
-              Categories
+              Social Links
             </p>
             <div className="flex gap-6 mt-4 footer-nav text-2xl">
               <FaLinkedin></FaLinkedin>
@@ -76,7 +76,9 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        <p className="text-center py-4 border-t border-white/10 text-purple-500/40 mt-8">© 2025 SmartDeals. All rights reserved.</p>
+        <p className="text-center py-4 border-t border-white/10 text-purple-500/40 mt-8">
+          © 2025 SmartDeals. All rights reserved.
+        </p>
       </Container>
     </div>
   );
