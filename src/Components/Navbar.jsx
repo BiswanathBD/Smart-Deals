@@ -1,4 +1,4 @@
-import React, { use, useState } from "react";
+import React, { use, useState, useEffect, useRef } from "react";
 import { FaClipboardList, FaFileMedical, FaHome } from "react-icons/fa";
 import { FaBasketShopping } from "react-icons/fa6";
 import { RiMenuFold3Line, RiMenuFold4Line } from "react-icons/ri";
@@ -10,9 +10,23 @@ const Navbar = () => {
   const { user, setUser, userSignOut } = use(AuthContext);
   const [showProfile, setShowProfile] = useState(false);
 
+  const profileRef = useRef(null);
+  
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (profileRef.current && !profileRef.current.contains(event.target)) {
+        setShowProfile(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   const mobileNav = [
     <NavLink key="home" to={"/"} className="flex gap-2 items-center">
-      <FaHome size={24}></FaHome>
+      <FaHome size={24} />
       <span>Home</span>
     </NavLink>,
     <NavLink
@@ -20,7 +34,7 @@ const Navbar = () => {
       to={"/allProducts"}
       className="flex gap-2 items-center"
     >
-      <FaBasketShopping size={24}></FaBasketShopping>
+      <FaBasketShopping size={24} />
       <span>All Products</span>
     </NavLink>,
     <NavLink
@@ -28,11 +42,11 @@ const Navbar = () => {
       to={"/myProducts"}
       className="flex gap-2 items-center"
     >
-      <FaClipboardList size={24}></FaClipboardList>
+      <FaClipboardList size={24} />
       <span>My Products</span>
     </NavLink>,
     <NavLink key="myBids" to={"/myBids"} className="flex gap-2 items-center">
-      <FaClipboardList size={24}></FaClipboardList>
+      <FaClipboardList size={24} />
       <span>My Bids</span>
     </NavLink>,
     <NavLink
@@ -40,7 +54,7 @@ const Navbar = () => {
       to={"/createProducts"}
       className="flex gap-2 items-center"
     >
-      <FaFileMedical size={24}></FaFileMedical>
+      <FaFileMedical size={24} />
       <span>Create Products</span>
     </NavLink>,
   ];
@@ -79,12 +93,9 @@ const Navbar = () => {
             onClick={() => setShow(!show)}
             className="text-3xl text-purple-500 lg:hidden"
           >
-            {show ? (
-              <RiMenuFold4Line></RiMenuFold4Line>
-            ) : (
-              <RiMenuFold3Line></RiMenuFold3Line>
-            )}
+            {show ? <RiMenuFold4Line /> : <RiMenuFold3Line />}
           </button>
+
           {/* mobile nav */}
           <div
             className={`absolute lg:hidden top-0 h-screen bg-black/50 backdrop-blur-lg z-10 p-16 transition-all duration-500 shadow-2xl shadow-black
@@ -92,12 +103,13 @@ const Navbar = () => {
               show
                 ? "right-0 opacity-100"
                 : "-right-10 opacity-0 pointer-events-none"
-            }
-            `}
+            }`}
           >
             <nav
               onClick={() => setShow(false)}
-              className={`flex flex-col lg:hidden ${show ? "gap-12" : "gap-4"} transition-all delay-200 duration-1000`}
+              className={`flex flex-col lg:hidden ${
+                show ? "gap-12" : "gap-4"
+              } transition-all delay-200 duration-1000`}
             >
               {mobileNav}
             </nav>
@@ -113,14 +125,15 @@ const Navbar = () => {
 
         <div>
           {user ? (
-            <div className="relative">
+            <div className="relative" ref={profileRef}>
               <img
                 onClick={() => setShowProfile(!showProfile)}
-                className="w-12 aspect-square rounded-full border-2 border-purple-500"
+                className="w-12 aspect-square rounded-full border-2 border-purple-500 cursor-pointer"
                 src={user.photoURL}
                 alt=""
               />
-              {/* profile */}
+
+              {/* profile dropdown */}
               <div
                 className={`absolute right-0 bg-black/50 backdrop-blur-lg z-20 p-6 sm:p-8 w-72 transition-all duration-500 border border-purple-500/30 rounded-2xl shadow-[0_0_40px_#ac46ff30]
   ${

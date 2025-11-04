@@ -4,6 +4,7 @@ import productImage from "../assets/product.webp";
 import profile from "../assets/profile.png";
 import { server } from "../server";
 import Loader from "../Components/Loader";
+import { FaMapMarkerAlt, FaPhoneAlt } from "react-icons/fa";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -48,7 +49,7 @@ const ProductDetails = () => {
             <div className="flex flex-wrap gap-3 mb-4">
               <span
                 className={`px-3 py-1 rounded-full text-xs font-medium border ${
-                  product.condition === "fresh"
+                  product.condition === "Brand New"
                     ? "bg-green-400/20 text-green-300 border-green-400/30"
                     : "bg-gray-500/20 text-gray-300 border-gray-500/30"
                 }`}
@@ -57,12 +58,12 @@ const ProductDetails = () => {
               </span>
 
               <span className="px-3 py-1 rounded-full text-xs font-medium border bg-blue-400/20 text-blue-300 border-blue-400/30">
-                Usage: {product.usage}
+                Usage: {product.usage || "New"}
               </span>
             </div>
 
             <p className="text-gray-400 leading-relaxed text-sm">
-              {product.description || "No detailed description provided."}
+              {product.description}
             </p>
           </div>
         </div>
@@ -85,9 +86,7 @@ const ProductDetails = () => {
 
             {/* Product details */}
             <div className="bg-white/5 relative group bg-linear-to-r from-[#6c28d927] to-[#ec489910] border border-purple-500/30 p-4 rounded-xl mb-6 transition-all duration-500 hover:scale-101">
-              <h4 className="text-xl font-semibold mb-3">
-                Product Details
-              </h4>
+              <h4 className="text-xl font-semibold mb-3">Product Details</h4>
               <p className="text-purple-500">
                 <span className="font-semibold text-gray-200">Product ID:</span>{" "}
                 {product._id}
@@ -111,9 +110,7 @@ const ProductDetails = () => {
 
                 <div className="flex items-center gap-3 mb-3">
                   <img
-                    src={
-                      // product.seller_image || 
-                      profile}
+                    src={product.seller_image || profile}
                     alt={product.seller_name}
                     className="w-12 h-12 rounded-full object-cover border-2 border-purple-400/40 shadow-[0_0_15px_rgba(172,70,255,0.3)]"
                   />
@@ -126,18 +123,14 @@ const ProductDetails = () => {
                 </div>
 
                 <div className="space-y-1">
-                  <p className="text-sm text-gray-300">
-                    <span className="font-medium text-gray-200">
-                      Location:
-                    </span>{" "}
-                    {product.location}
-                  </p>
-                  <p className="text-sm text-gray-300">
-                    <span className="font-medium text-gray-200">
-                      Contact:
-                    </span>{" "}
-                    {product.seller_contact}
-                  </p>
+                  <div className="flex items-center gap-2 text-white/70 text-sm mb-4">
+                    <FaMapMarkerAlt className="text-purple-500" />
+                    <span>{product.location}</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-white/70 text-sm mb-4">
+                    <FaPhoneAlt className="text-purple-500" />
+                    <span>{product.seller_contact}</span>
+                  </div>
                   <p className="text-sm mt-2">
                     <span
                       className={`px-3 py-1 rounded-full text-xs font-medium border ${

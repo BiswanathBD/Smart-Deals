@@ -50,7 +50,7 @@ const Banner = () => {
               </Link>
               <Link
                 to={"/createProducts"}
-                className="rounded-lg! border border-purple-500 py-3 px-6 font-semibold bg-linear-to-r from-[#ac46ff] to-[#ffc0cb] bg-clip-text text-transparent"
+                className="rounded-lg border border-purple-500 py-3 px-6 font-semibold bg-linear-to-r from-[#ac46ff] to-[#ffc0cb] bg-clip-text text-transparent"
               >
                 Post a Product
               </Link>
