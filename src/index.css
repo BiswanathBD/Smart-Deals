@@ -68,40 +68,106 @@ a {
 
 @keyframes mltShdSpin {
   0% {
-    box-shadow: 0 -0.83em 0 -0.4em,
-    0 -0.83em 0 -0.42em, 0 -0.83em 0 -0.44em,
-    0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em;
+    box-shadow: 0 -0.83em 0 -0.4em, 0 -0.83em 0 -0.42em, 0 -0.83em 0 -0.44em,
+      0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em;
   }
   5%,
   95% {
-    box-shadow: 0 -0.83em 0 -0.4em, 
-    0 -0.83em 0 -0.42em, 0 -0.83em 0 -0.44em, 
-    0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em;
+    box-shadow: 0 -0.83em 0 -0.4em, 0 -0.83em 0 -0.42em, 0 -0.83em 0 -0.44em,
+      0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em;
   }
   10%,
   59% {
-    box-shadow: 0 -0.83em 0 -0.4em, 
-    -0.087em -0.825em 0 -0.42em, -0.173em -0.812em 0 -0.44em, 
-    -0.256em -0.789em 0 -0.46em, -0.297em -0.775em 0 -0.477em;
+    box-shadow: 0 -0.83em 0 -0.4em, -0.087em -0.825em 0 -0.42em,
+      -0.173em -0.812em 0 -0.44em, -0.256em -0.789em 0 -0.46em,
+      -0.297em -0.775em 0 -0.477em;
   }
   20% {
     box-shadow: 0 -0.83em 0 -0.4em, -0.338em -0.758em 0 -0.42em,
-     -0.555em -0.617em 0 -0.44em, -0.671em -0.488em 0 -0.46em, 
-     -0.749em -0.34em 0 -0.477em;
+      -0.555em -0.617em 0 -0.44em, -0.671em -0.488em 0 -0.46em,
+      -0.749em -0.34em 0 -0.477em;
   }
   38% {
     box-shadow: 0 -0.83em 0 -0.4em, -0.377em -0.74em 0 -0.42em,
-     -0.645em -0.522em 0 -0.44em, -0.775em -0.297em 0 -0.46em, 
-     -0.82em -0.09em 0 -0.477em;
+      -0.645em -0.522em 0 -0.44em, -0.775em -0.297em 0 -0.46em,
+      -0.82em -0.09em 0 -0.477em;
   }
   100% {
-    box-shadow: 0 -0.83em 0 -0.4em, 0 -0.83em 0 -0.42em, 
-    0 -0.83em 0 -0.44em, 0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em;
+    box-shadow: 0 -0.83em 0 -0.4em, 0 -0.83em 0 -0.42em, 0 -0.83em 0 -0.44em,
+      0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em;
   }
 }
 
 @keyframes round {
-  0% { transform: rotate(0deg) }
-  100% { transform: rotate(360deg) }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
- 
+
+/* sweetalart customize */
+
+.swal2-popup {
+  max-width: 320px !important;
+  padding: 1.2rem !important;
+  border-radius: 0.75rem !important;
+  background: rgba(0, 0, 0, 0.3) !important;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  box-shadow: 0 0 25px rgba(168, 85, 247, 0.3);
+  color: #e5e7eb !important;
+}
+
+.swal2-title {
+  font-size: 1.25rem !important;
+  color: #c084fc !important;
+  font-weight: 700 !important;
+}
+
+.swal2-html-container {
+  font-size: 0.9rem !important;
+  color: #d1d5db !important;
+}
+
+.swal2-icon {
+  transform: scale(0.9);
+}
+
+/* Glowing purple button */
+.swal2-confirm {
+  background: linear-gradient(to right, #7c3aed, #ec4899) !important;
+  border: none !important;
+  color: #fff !important;
+  padding: 6px 18px !important;
+  font-size: 0.85rem !important;
+  border-radius: 0.5rem !important;
+  font-weight: 600 !important;
+  box-shadow: 0 0 10px rgba(168, 85, 247, 0.6);
+  transition: all 0.25s ease-in-out;
+}
+
+.swal2-confirm:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(155, 85, 255, 0.4);
+}
+
+/* Cancel button style */
+.swal2-cancel {
+  background: rgba(239, 68, 68, 0.1) !important;
+  color: #f87171 !important; /* red-400 */
+  border: 1px solid rgba(239, 68, 68, 0.3) !important;
+  border-radius: 0.5rem !important;
+  font-weight: 500 !important;
+  font-size: 0.85rem !important;
+  padding: 6px 18px !important;
+  transition: all 0.25s ease-in-out;
+}
+
+.swal2-cancel:hover {
+  background: #ef4444 !important;
+  color: white !important;
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+  transform: scale(1.01);
+}

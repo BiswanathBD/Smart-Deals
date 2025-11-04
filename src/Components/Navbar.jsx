@@ -6,12 +6,12 @@ import { Link, NavLink } from "react-router";
 import { AuthContext } from "../Context/AuthContext";
 
 const Navbar = () => {
-  const [show, setShow] = useState();
-  const { user, setUser, userSignOut } = use(AuthContext);
+  const [show, setShow] = useState(false);
+  const { user, setUser, userSignOut, loading } = use(AuthContext);
   const [showProfile, setShowProfile] = useState(false);
 
   const profileRef = useRef(null);
-  
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (profileRef.current && !profileRef.current.contains(event.target)) {
@@ -81,12 +81,13 @@ const Navbar = () => {
     userSignOut()
       .then(() => {
         setUser(null);
+        setShowProfile(false);
       })
       .catch((e) => console.log(e.code));
   };
 
   return (
-    <div className="py-4 bg-black/20">
+    <div className="py-3 bg-black/20">
       <div className="flex gap-4 justify-between items-center container mx-auto px-4 md:px-10 lg:px-20">
         <div className="flex items-center gap-4">
           <button
@@ -115,7 +116,7 @@ const Navbar = () => {
             </nav>
           </div>
 
-          <Link to={"/"} className="text-3xl font-bold">
+          <Link to={"/"} className="text-3xl font-bold py-1">
             Smart<span className="text-purple-500">Deals</span>
           </Link>
         </div>
@@ -148,7 +149,7 @@ const Navbar = () => {
                       "https://i.ibb.co/2v9RkJ5/default-user.png"
                     }
                     alt="User"
-                    className="w-20 h-20 rounded-full border-2 border-[#ac46ff] shadow-[0_0_20px_#ac46ff50]"
+                    className="w-20 aspect-square rounded-full border-2 border-[#ac46ff] shadow-[0_0_20px_#ac46ff50]"
                   />
                   <h3 className="text-lg font-semibold text-white mt-3">
                     {user?.displayName || "Guest User"}
@@ -180,7 +181,10 @@ const Navbar = () => {
               </div>
             </div>
           ) : (
-            <Link to={"/signin"} className="btn-primary">
+            <Link
+              to={"/signin"}
+              className={`btn-primary transition-all ${loading && "opacity-0"}`}
+            >
               Sign In
             </Link>
           )}

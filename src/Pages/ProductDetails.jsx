@@ -62,7 +62,7 @@ const ProductDetails = () => {
               </span>
             </div>
 
-            <p className="text-gray-400 leading-relaxed text-sm">
+            <p className="text-gray-400 leading-relaxed text-sm bg-purple-500/5 p-4 border border-purple-500/20 rounded-lg">
               {product.description}
             </p>
           </div>

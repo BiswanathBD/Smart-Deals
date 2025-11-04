@@ -18,11 +18,11 @@ const ProductCard = ({ product }) => {
         />
         {/* Condition Badge */}
         <span
-          className={`absolute top-3 left-3 px-2 py-1 rounded-sm text-xs font-semibold
+          className={`absolute top-3 left-3 px-2 py-1 rounded-sm text-xs font-semibold border
           ${
             condition === "Brand New"
-              ? "bg-blue-300/80 text-white"
-              : "bg-pink-300/80 text-white"
+              ? "bg-blue-500/60 border-blue-500/80 text-white"
+              : "bg-pink-500/60 border-pink-500/80 text-white"
           }`}
         >
           {condition.toUpperCase()}
@@ -44,7 +44,7 @@ const ProductCard = ({ product }) => {
         {/* View Details Button */}
         <Link
           to={`/products/${_id}`}
-          className="mt-auto inline-block text-center py-2 px-4 bg-linear-to-r from-[#ac46ff77] to-[#ffc0cb80] text-white rounded-lg font-semibold hover:from-[#ac46ff] hover:to-[#ffc0cb]"
+          className="mt-auto inline-block text-center btn-primary"
         >
           View Details
         </Link>

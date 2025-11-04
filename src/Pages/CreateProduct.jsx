@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router";
 import { AuthContext } from "../Context/AuthContext";
 import Loader from "../Components/Loader";
 import { server } from "../server";
+import toast from "react-hot-toast";
 
 const CreateProduct = () => {
   const { user } = useContext(AuthContext);
@@ -32,9 +33,17 @@ const CreateProduct = () => {
       seller_image: user.photoURL,
       seller_contact: user.phoneNumber,
       location: user.address,
-      status: "pending",
+      status: "Pending",
       created_at: new Date().toISOString(),
     };
+
+    if (
+      newProduct.price_max &&
+      Number(newProduct.price_max) < Number(newProduct.price_min)
+    ) {
+      toast.error("Invalid price range.");
+      return;
+    }
 
     fetch(`${server}/products`, {
       method: "POST",
@@ -44,8 +53,8 @@ const CreateProduct = () => {
       body: JSON.stringify(newProduct),
     })
       .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
+      .then(() => {
+        toast.success("Product added");
         navigate("/allProducts");
       })
       .catch((error) => console.log(error));
@@ -153,7 +162,7 @@ const CreateProduct = () => {
               ))}
             </div>
           </div>
-          <div className="mt-4">
+          <div>
             <label className="block text-sm mb-2 text-gray-300">
               Product Usage Time
             </label>
@@ -259,12 +268,7 @@ const CreateProduct = () => {
         </div>
 
         {/* Submit Button */}
-        <button
-          type="submit"
-          className="w-full mt-8 py-3 rounded-lg text-white font-semibold 
-                     bg-linear-to-r from-purple-600 to-pink-500 hover:opacity-95 transition-all 
-                     shadow-[0_0_25px_rgba(155,85,255,0.5)] hover:shadow-[0_0_40px_rgba(255,85,255,0.6)]"
-        >
+        <button type="submit" className="w-full mt-8 btn-primary">
           Create A Product
         </button>
       </form>
