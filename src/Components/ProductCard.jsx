@@ -8,13 +8,13 @@ const ProductCard = ({ product }) => {
     product;
 
   return (
-    <div className="bg-black/5 backdrop-blur-sm rounded-xl overflow-hidden group transition-all duration-300 transform hover:scale-105 flex flex-col border border-purple-500/30 hover:shadow-[0_0_30px_rgba(172,70,255,0.2)]">
+    <div className="bg-black/5 backdrop-blur-sm rounded-xl overflow-hidden group transition-all duration-300 transform hover:scale-102 flex flex-col border border-purple-500/30 hover:shadow-[0_0_30px_rgba(172,70,255,0.2)]">
       {/* Product Image */}
       <div className="w-full aspect-5/3 relative overflow-hidden">
         <img
           src={image || productImg}
           alt={title}
-          className="w-full h-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-110"
+          className="w-full h-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
         />
         {/* Condition Badge */}
         <span

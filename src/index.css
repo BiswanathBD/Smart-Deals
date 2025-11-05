@@ -171,3 +171,15 @@ a {
   box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
   transform: scale(1.01);
 }
+
+/* Remove arrows in Chrome, Safari, Edge, Opera */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Remove arrows in Firefox */
+input[type="number"] {
+  -appearance: textfield;
+}

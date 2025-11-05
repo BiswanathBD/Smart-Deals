@@ -1,4 +1,4 @@
-import React, { use, useEffect, useState } from "react";
+import React, { useEffect, useState, use } from "react";
 import { AuthContext } from "../Context/AuthContext";
 import { server } from "../server";
 import Container from "../Components/Container";
@@ -6,7 +6,6 @@ import { motion } from "motion/react";
 import Loader from "../Components/Loader";
 import productImage from "../assets/product.webp";
 import Swal from "sweetalert2";
-import EditProductModal from "../Components/EditProduct";
 import { Link } from "react-router";
 
 const MyProducts = () => {
@@ -32,15 +31,22 @@ const MyProducts = () => {
     },
   };
 
+  // Delete product
   const handleDelete = (id) => {
     Swal.fire({
       title: "Are you sure?",
-      text: "You won't be able to revert this!",
+      text: "This product will be deleted permanently!",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
+      confirmButtonColor: "#9333ea",
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, delete it!",
+      customClass: {
+        popup:
+          "rounded-2xl bg-[#0f0f16] text-gray-200 border border-purple-500/20",
+        title: "text-lg font-semibold text-purple-400",
+        confirmButton: "btn-primary px-4 py-2 rounded-lg",
+      },
     }).then((result) => {
       if (result.isConfirmed) {
         fetch(`${server}/products/${id}`, {
@@ -48,27 +54,54 @@ const MyProducts = () => {
         })
           .then((res) => res.json())
           .then(() => {
-            const remainingProducts = products.filter((p) => p._id !== id);
-            setProducts(remainingProducts);
+            const remaining = products.filter((p) => p._id !== id);
+            setProducts(remaining);
 
             Swal.fire({
               title: "Deleted!",
               text: "Your product has been deleted.",
               icon: "success",
               showConfirmButton: false,
-              timer: 1500,
+              timer: 1200,
+              background: "#0f0f16",
+              color: "#fff",
             });
           })
           .catch((error) => {
-            console.error("Delete failed:", error);
-            Swal.fire({
-              title: "Error!",
-              text: "Something went wrong while deleting.",
-              icon: "error",
-            });
+            console.error(error);
           });
       }
     });
+  };
+
+  // Make Sold — instant update
+  const handleMakeSold = (id) => {
+    const newStatus = { status: "Sold" };
+
+    fetch(`${server}/products/${id}`, {
+      method: "PUT",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(newStatus),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.modifiedCount > 0) {
+          const updatedProducts = products.map((p) =>
+            p._id === id ? { ...p, status: "Sold" } : p
+          );
+          setProducts(updatedProducts);
+
+          Swal.fire({
+            title: "Sold Out!",
+            text: "Product marked as Sold.",
+            icon: "success",
+            showConfirmButton: false,
+          });
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   return (
@@ -79,7 +112,7 @@ const MyProducts = () => {
         </h3>
 
         {loading ? (
-          <Loader></Loader>
+          <Loader />
         ) : (
           <motion.div
             className="grid gap-8"
@@ -90,7 +123,7 @@ const MyProducts = () => {
             <table className="w-full">
               <thead className="bg-white/5 text-xl text-purple-500">
                 <tr>
-                  <th className="px-4 py-2 text-left">Sl No</th>
+                  <th className="px-4 py-2 text-left">SL No</th>
                   <th className="px-4 py-2 text-left">Image</th>
                   <th className="px-4 py-2 text-left">Product Name</th>
                   <th className="px-4 py-2 text-center">Category</th>
@@ -110,8 +143,8 @@ const MyProducts = () => {
                         opacity: 1,
                         y: 0,
                         transition: {
-                          delay: i * 0.3,
-                          duration: 0.5,
+                          delay: i * 0.15,
+                          duration: 0.4,
                           ease: "easeOut",
                         },
                       }),
@@ -119,6 +152,9 @@ const MyProducts = () => {
                     initial="hidden"
                     animate="visible"
                     custom={index}
+                    className={`transition-opacity duration-300 ${
+                      product.status === "Sold" ? "opacity-50" : "opacity-100"
+                    }`}
                   >
                     <td className="px-4 py-6">{index + 1}.</td>
                     <td className="px-4 py-4">
@@ -128,21 +164,30 @@ const MyProducts = () => {
                         className="w-12 aspect-4/3 object-cover rounded"
                       />
                     </td>
-                    <td className="px-4 py-2">{product.title}</td>
+
+                    <td className="px-4 py-2 text-lg">
+                      <Link
+                        to={`/products/${product._id}`}
+                        className="hover:text-pink-400 text-xl"
+                      >
+                        {product.title}
+                      </Link>
+                    </td>
+
                     <td className="px-4 py-2 text-center">
                       {product.category}
                     </td>
                     <td className="px-4 py-2 text-center">
-                      ৳{product.price_min.toLocaleString()} - ৳
-                      {product.price_max?.toLocaleString() ||
-                        product.price_min.toLocaleString() + "+"}
+                      ৳{product.price_min} - ৳
+                      {product.price_max || product.price_min + "+"}
                     </td>
-                    <td className="px-4 py-2">
+
+                    <td className="px-4 py-2 text-center">
                       <span
                         className={`px-4 py-2 border rounded-full text-white text-sm font-light ${
-                          product.status !== "Pending"
-                            ? "bg-yellow-500/30 border-yellow-500/50"
-                            : "bg-green-500/30 border-green-500/50 animate-pulse"
+                          product.status === "Pending"
+                            ? "bg-green-500/30 border-green-500/50 animate-pulse"
+                            : "bg-yellow-500/30 border-yellow-500/50"
                         }`}
                       >
                         {product.status}
@@ -151,20 +196,34 @@ const MyProducts = () => {
 
                     {/* actions buttons */}
                     <td className="px-4 py-2">
-                      <div className="flex gap-3 justify-center">
+                      <div className="flex gap-3 justify-center opacity-100">
                         <Link
                           to={`/editProducts/${product._id}`}
-                          className="border border-purple-500 px-2 py-1 rounded-lg text-purple-500 hover:text-white hover:bg-purple-500 transition-all"
+                          className={`border px-2 py-1 rounded-lg transition-all ${
+                            product.status === "Sold"
+                              ? "border-gray-700 text-gray-600 cursor-not-allowed! pointer-events-none"
+                              : "border-purple-500 text-purple-500 hover:text-white hover:bg-purple-500"
+                          }`}
                         >
                           Edit
                         </Link>
+
                         <button
                           onClick={() => handleDelete(product._id)}
                           className="border border-red-500 px-2 py-1 rounded-lg text-red-500 hover:text-white hover:bg-red-500 transition-all"
                         >
                           Delete
                         </button>
-                        <button className="border border-yellow-600 px-2 py-1 rounded-lg text-yellow-600 hover:text-white hover:bg-yellow-600 transition-all">
+
+                        <button
+                          onClick={() => handleMakeSold(product._id)}
+                          disabled={product.status === "Sold"}
+                          className={`px-2 py-1 rounded-lg border transition-all ${
+                            product.status === "Sold"
+                              ? "border-gray-700 text-gray-600 cursor-not-allowed!"
+                              : "border-yellow-600 text-yellow-600 hover:text-white hover:bg-yellow-600"
+                          }`}
+                        >
                           Make Sold
                         </button>
                       </div>

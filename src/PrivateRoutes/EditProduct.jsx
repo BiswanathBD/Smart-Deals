@@ -1,10 +1,10 @@
-import React, { use, useEffect, useState } from "react";
-import Container from "./Container";
+import React, { useEffect, useState } from "react";
+import Container from "../Components/Container";
 import { AuthContext } from "../Context/AuthContext";
 import { Link, useNavigate, useParams } from "react-router";
 import toast from "react-hot-toast";
 import { server } from "../server";
-import Loader from "./Loader";
+import Loader from "../Components/Loader";
 import productImage from "../assets/product.webp";
 
 const EditProduct = () => {

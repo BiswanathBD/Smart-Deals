@@ -6,9 +6,11 @@ import SignIn from "../Pages/SignIn";
 import SignUp from "../Pages/SignUp";
 import PrivateRoute from "../PrivateRoutes/PrivateRoute";
 import MyProducts from "../PrivateRoutes/MyProducts";
-import ProductDetails from "../Pages/ProductDetails";
-import CreateProduct from "../Pages/CreateProduct";
-import EditProduct from "./EditProduct";
+import ProductDetails from "../PrivateRoutes/ProductDetails";
+import CreateProduct from "../PrivateRoutes/CreateProduct";
+import EditProduct from "../PrivateRoutes/EditProduct";
+import CreateBid from "../PrivateRoutes/CreateBid";
+import MyBid from "../PrivateRoutes/MyBid";
 
 const router = createBrowserRouter([
   {
@@ -40,6 +42,14 @@ const router = createBrowserRouter([
         ),
       },
       {
+        path: "/myBids",
+        element: (
+          <PrivateRoute>
+            <MyBid></MyBid>
+          </PrivateRoute>
+        ),
+      },
+      {
         path: "/products/:id",
         element: (
           <PrivateRoute>
@@ -60,6 +70,14 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <EditProduct></EditProduct>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/createBid/:id",
+        element: (
+          <PrivateRoute>
+            <CreateBid></CreateBid>
           </PrivateRoute>
         ),
       },

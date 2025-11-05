@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router";
+import { Link, useLocation, useParams } from "react-router";
 import productImage from "../assets/product.webp";
 import profile from "../assets/profile.png";
 import { server } from "../server";
@@ -133,8 +133,8 @@ const ProductDetails = () => {
                   </div>
                   <p className="text-sm mt-2">
                     <span
-                      className={`px-3 py-1 rounded-full text-xs font-medium border ${
-                        product.status === "pending"
+                      className={`px-3 py-1 rounded-full text-sm font-medium border ${
+                        product.status !== "Pending"
                           ? "bg-yellow-400/20 text-yellow-300 border-yellow-400/30"
                           : "bg-green-400/20 text-green-300 border-green-400/30"
                       }`}
@@ -148,14 +148,16 @@ const ProductDetails = () => {
           </div>
 
           {/* Fancy Gradient Button */}
-          <button
-            className="w-full py-3 rounded-lg text-white font-semibold 
+          <Link to={`/createBid/${product._id}`}>
+            <button
+              className="w-full py-3 rounded-lg text-white font-semibold 
                        bg-linear-to-r from-purple-600 to-pink-500
                        hover:opacity-95 transition-all shadow-[0_0_25px_rgba(155,85,255,0.5)]
                        hover:shadow-[0_0_40px_rgba(255,85,255,0.6)] mt-6"
-          >
-            I Want Buy This Product
-          </button>
+            >
+              I Want Buy This Product
+            </button>
+          </Link>
         </div>
       </div>
     </div>

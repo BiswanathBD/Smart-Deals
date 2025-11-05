@@ -55,7 +55,7 @@ const CreateProduct = () => {
       .then((res) => res.json())
       .then(() => {
         toast.success("Product added");
-        navigate("/allProducts");
+        navigate("/myProducts");
       })
       .catch((error) => console.log(error));
   };
