@@ -12,6 +12,8 @@ const MyBid = () => {
   const { user } = use(AuthContext);
   const [bids, setBids] = useState([]);
   const [loading, setLoading] = useState(true);
+  console.log(bids);
+  
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -22,10 +24,9 @@ const MyBid = () => {
   };
 
   useEffect(() => {
-    fetch(`${server}/bids/${user?.email}`)
+    fetch(`${server}/bids/user/${user?.email}`)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setBids(data);
         setLoading(false);
       })
@@ -33,48 +34,56 @@ const MyBid = () => {
   }, [user]);
 
   return (
-    <Container>
-      <div className="my-10">
-        <h3 className="text-3xl md:text-5xl font-bold text-center mb-10">
-          My <span className="text-purple-500">bids</span>
-        </h3>
+    <motion.div
+      initial={{ opacity: 0, y: 40 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
+    >
+      <Container>
+        <div className="my-10">
+          <h3 className="text-3xl md:text-5xl font-bold text-center mb-10">
+            My <span className="text-purple-500">bids</span>
+          </h3>
 
-        {loading ? (
-          <Loader />
-        ) : (
-          <motion.div
-            className="grid gap-8"
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-          >
-            <table className="w-full">
-              <thead className="bg-white/5 text-xl text-purple-500">
-                <tr>
-                  <th className="px-4 py-2 text-left">SL No</th>
-                  <th className="px-4 py-2 text-left">Product</th>
-                  <th className="px-4 py-2 text-left">Seller</th>
-                  <th className="px-4 py-2 text-center">Bid Price</th>
-                  <th className="px-4 py-2 text-center">Status</th>
-                  <th className="px-4 py-2 text-center">Actions</th>
-                </tr>
-              </thead>
+          {loading ? (
+            <Loader />
+          ) : (
+            <motion.div
+              className="grid gap-8"
+              variants={containerVariants}
+              initial="hidden"
+              whileInView="visible"
+            >
+              <table className="w-full">
+                <thead className="bg-white/5 text-xl text-purple-500">
+                  <tr>
+                    <th className="px-4 py-2 text-left">SL No</th>
+                    <th className="px-4 py-2 text-left">Product</th>
+                    <th className="px-4 py-2 text-left">Seller</th>
+                    <th className="px-4 py-2 text-left">Bid Price</th>
+                    <th className="px-4 py-2 text-center">Status</th>
+                    <th className="px-4 py-2 text-center">Actions</th>
+                  </tr>
+                </thead>
 
-              <tbody className="divide-y divide-pink-300/10">
-                {bids.map((bid, index) => (
-                  <BidItem
-                    key={bid._id}
-                    bid={bid}
-                    index={index}
-                    product_id={bid.product_id}
-                  ></BidItem>
-                ))}
-              </tbody>
-            </table>
-          </motion.div>
-        )}
-      </div>
-    </Container>
+                <tbody className="divide-y divide-pink-300/10">
+                  {bids.map((bid, index) => (
+                    <BidItem
+                      key={bid._id}
+                      bid={bid}
+                      index={index}
+                      product_id={bid.product_id}
+                      setBids={setBids}
+                      bids={bids}
+                    ></BidItem>
+                  ))}
+                </tbody>
+              </table>
+            </motion.div>
+          )}
+        </div>
+      </Container>
+    </motion.div>
   );
 };
 

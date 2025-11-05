@@ -74,7 +74,6 @@ const MyProducts = () => {
     });
   };
 
-  // Make Sold — instant update
   const handleMakeSold = (id) => {
     const newStatus = { status: "Sold" };
 
@@ -105,137 +104,143 @@ const MyProducts = () => {
   };
 
   return (
-    <Container>
-      <div className="my-10">
-        <h3 className="text-3xl md:text-5xl font-bold text-center mb-10">
-          My <span className="text-purple-500">Products</span>
-        </h3>
+    <motion.div
+      initial={{ opacity: 0, y: 40 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
+    >
+      <Container>
+        <div className="my-10">
+          <h3 className="text-3xl md:text-5xl font-bold text-center mb-10">
+            My <span className="text-purple-500">Products</span>
+          </h3>
 
-        {loading ? (
-          <Loader />
-        ) : (
-          <motion.div
-            className="grid gap-8"
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-          >
-            <table className="w-full">
-              <thead className="bg-white/5 text-xl text-purple-500">
-                <tr>
-                  <th className="px-4 py-2 text-left">SL No</th>
-                  <th className="px-4 py-2 text-left">Image</th>
-                  <th className="px-4 py-2 text-left">Product Name</th>
-                  <th className="px-4 py-2 text-center">Category</th>
-                  <th className="px-4 py-2 text-center">Price</th>
-                  <th className="px-4 py-2 text-center">Status</th>
-                  <th className="px-4 py-2 text-center">Actions</th>
-                </tr>
-              </thead>
+          {loading ? (
+            <Loader />
+          ) : (
+            <motion.div
+              className="grid gap-8"
+              variants={containerVariants}
+              initial="hidden"
+              whileInView="visible"
+            >
+              <table className="w-full">
+                <thead className="bg-white/5 text-xl text-purple-500">
+                  <tr>
+                    <th className="px-4 py-2 text-left">SL No</th>
+                    <th className="px-4 py-2 text-left">Image</th>
+                    <th className="px-4 py-2 text-left">Product Name</th>
+                    <th className="px-4 py-2 text-center">Category</th>
+                    <th className="px-4 py-2 text-center">Price</th>
+                    <th className="px-4 py-2 text-center">Status</th>
+                    <th className="px-4 py-2 text-center">Actions</th>
+                  </tr>
+                </thead>
 
-              <tbody className="divide-y divide-pink-300/10">
-                {products.map((product, index) => (
-                  <motion.tr
-                    key={product._id}
-                    variants={{
-                      hidden: { opacity: 0, y: 10 },
-                      visible: (i) => ({
-                        opacity: 1,
-                        y: 0,
-                        transition: {
-                          delay: i * 0.15,
-                          duration: 0.4,
-                          ease: "easeOut",
-                        },
-                      }),
-                    }}
-                    initial="hidden"
-                    animate="visible"
-                    custom={index}
-                    className={`transition-opacity duration-300 ${
-                      product.status === "Sold" ? "opacity-50" : "opacity-100"
-                    }`}
-                  >
-                    <td className="px-4 py-6">{index + 1}.</td>
-                    <td className="px-4 py-4">
-                      <img
-                        src={product.image || productImage}
-                        alt={product.title}
-                        className="w-12 aspect-4/3 object-cover rounded"
-                      />
-                    </td>
+                <tbody className="divide-y divide-pink-300/10">
+                  {products.map((product, index) => (
+                    <motion.tr
+                      key={product._id}
+                      variants={{
+                        hidden: { opacity: 0, y: 10 },
+                        visible: (i) => ({
+                          opacity: 1,
+                          y: 0,
+                          transition: {
+                            delay: i * 0.15,
+                            duration: 0.4,
+                            ease: "easeOut",
+                          },
+                        }),
+                      }}
+                      initial="hidden"
+                      animate="visible"
+                      custom={index}
+                      className={`transition-opacity duration-300 ${
+                        product.status === "Sold" ? "opacity-50" : "opacity-100"
+                      }`}
+                    >
+                      <td className="px-4 py-6">{index + 1}.</td>
+                      <td className="px-4 py-4">
+                        <img
+                          src={product.image || productImage}
+                          alt={product.title}
+                          className="w-12 aspect-4/3 object-cover rounded"
+                        />
+                      </td>
 
-                    <td className="px-4 py-2 text-lg">
-                      <Link
-                        to={`/products/${product._id}`}
-                        className="hover:text-pink-400 text-xl"
-                      >
-                        {product.title}
-                      </Link>
-                    </td>
-
-                    <td className="px-4 py-2 text-center">
-                      {product.category}
-                    </td>
-                    <td className="px-4 py-2 text-center">
-                      ৳{product.price_min} - ৳
-                      {product.price_max || product.price_min + "+"}
-                    </td>
-
-                    <td className="px-4 py-2 text-center">
-                      <span
-                        className={`px-4 py-2 border rounded-full text-white text-sm font-light ${
-                          product.status === "Pending"
-                            ? "bg-green-500/30 border-green-500/50 animate-pulse"
-                            : "bg-yellow-500/30 border-yellow-500/50"
-                        }`}
-                      >
-                        {product.status}
-                      </span>
-                    </td>
-
-                    {/* actions buttons */}
-                    <td className="px-4 py-2">
-                      <div className="flex gap-3 justify-center opacity-100">
+                      <td className="px-4 py-2 text-lg">
                         <Link
-                          to={`/editProducts/${product._id}`}
-                          className={`border px-2 py-1 rounded-lg transition-all ${
-                            product.status === "Sold"
-                              ? "border-gray-700 text-gray-600 cursor-not-allowed! pointer-events-none"
-                              : "border-purple-500 text-purple-500 hover:text-white hover:bg-purple-500"
-                          }`}
+                          to={`/products/${product._id}`}
+                          className="hover:text-pink-400 text-xl"
                         >
-                          Edit
+                          {product.title}
                         </Link>
+                      </td>
 
-                        <button
-                          onClick={() => handleDelete(product._id)}
-                          className="border border-red-500 px-2 py-1 rounded-lg text-red-500 hover:text-white hover:bg-red-500 transition-all"
-                        >
-                          Delete
-                        </button>
+                      <td className="px-4 py-2 text-center">
+                        {product.category}
+                      </td>
+                      <td className="px-4 py-2 text-center">
+                        ৳{product.price_min} - ৳
+                        {product.price_max || product.price_min + "+"}
+                      </td>
 
-                        <button
-                          onClick={() => handleMakeSold(product._id)}
-                          disabled={product.status === "Sold"}
-                          className={`px-2 py-1 rounded-lg border transition-all ${
-                            product.status === "Sold"
-                              ? "border-gray-700 text-gray-600 cursor-not-allowed!"
-                              : "border-yellow-600 text-yellow-600 hover:text-white hover:bg-yellow-600"
+                      <td className="px-4 py-2 text-center">
+                        <span
+                          className={`px-4 py-2 border rounded-full text-white text-sm font-light ${
+                            product.status === "Pending"
+                              ? "bg-green-500/30 border-green-500/50 animate-pulse"
+                              : "bg-yellow-500/30 border-yellow-500/50"
                           }`}
                         >
-                          Make Sold
-                        </button>
-                      </div>
-                    </td>
-                  </motion.tr>
-                ))}
-              </tbody>
-            </table>
-          </motion.div>
-        )}
-      </div>
-    </Container>
+                          {product.status}
+                        </span>
+                      </td>
+
+                      {/* actions buttons */}
+                      <td className="px-4 py-2">
+                        <div className="flex gap-3 justify-center opacity-100">
+                          <Link
+                            to={`/editProducts/${product._id}`}
+                            className={`border px-2 py-1 rounded-lg transition-all ${
+                              product.status === "Sold"
+                                ? "border-gray-700 text-gray-600 cursor-not-allowed! pointer-events-none"
+                                : "border-purple-500 text-purple-500 hover:text-white hover:bg-purple-500"
+                            }`}
+                          >
+                            Edit
+                          </Link>
+
+                          <button
+                            onClick={() => handleDelete(product._id)}
+                            className="border border-red-500 px-2 py-1 rounded-lg text-red-500 hover:text-white hover:bg-red-500 transition-all"
+                          >
+                            Delete
+                          </button>
+
+                          <button
+                            onClick={() => handleMakeSold(product._id)}
+                            disabled={product.status === "Sold"}
+                            className={`px-2 py-1 rounded-lg border transition-all ${
+                              product.status === "Sold"
+                                ? "border-gray-700 text-gray-600 cursor-not-allowed!"
+                                : "border-yellow-600 text-yellow-600 hover:text-white hover:bg-yellow-600"
+                            }`}
+                          >
+                            Make Sold
+                          </button>
+                        </div>
+                      </td>
+                    </motion.tr>
+                  ))}
+                </tbody>
+              </table>
+            </motion.div>
+          )}
+        </div>
+      </Container>
+    </motion.div>
   );
 };
 
