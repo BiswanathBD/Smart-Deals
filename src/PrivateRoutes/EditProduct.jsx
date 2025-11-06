@@ -14,8 +14,6 @@ const EditProduct = () => {
   const [condition, setCondition] = useState("");
   const navigate = useNavigate();
 
-  console.log(product, condition);
-
   useEffect(() => {
     fetch(`${server}/products/${id}`)
       .then((res) => res.json())
@@ -60,14 +58,12 @@ const EditProduct = () => {
       body: JSON.stringify(editedProduct),
     })
       .then((res) => res.json())
-      .then((data) => {
+      .then(() => {
         toast.success("Product updated successfully!");
-        console.log(data);
         navigate("/myProducts");
       })
-      .catch((error) => {
+      .catch(() => {
         toast.error("Failed to update product.");
-        console.error(error);
       });
   };
 

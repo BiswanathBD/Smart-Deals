@@ -33,7 +33,6 @@ const NotFound = () => {
         you back to safety.
       </motion.p>
 
-      {/* Back Home Button */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -48,7 +47,6 @@ const NotFound = () => {
         </Link>
       </motion.div>
 
-      {/* Decorative gradient glow */}
       <div className="absolute inset-0 -z-10 bg-radial from-pink-500/10 to-transparent blur-3xl" />
     </div>
   );

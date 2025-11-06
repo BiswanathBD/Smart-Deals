@@ -14,8 +14,6 @@ const CreateProduct = () => {
   if (!user) {
     return <Loader></Loader>;
   }
-  user.phoneNumber = "+8801628284848";
-  user.address = "Dhaka, Bangladesh";
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -58,7 +56,7 @@ const CreateProduct = () => {
         toast.success("Product added");
         navigate("/myProducts");
       })
-      .catch((error) => console.log(error));
+      .catch((error) => toast.error(error));
   };
 
   return (

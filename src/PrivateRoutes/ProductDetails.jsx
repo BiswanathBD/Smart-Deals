@@ -10,7 +10,8 @@ import ProductBids from "../Components/ProductBids";
 
 const ProductDetails = () => {
   const { id } = useParams();
-  const [product, setProduct] = useState(null);
+  const [product, setProduct] = useState([]);
+  const location = useLocation();
 
   useEffect(() => {
     fetch(`${server}/products/${id}`)
@@ -87,7 +88,8 @@ const ProductDetails = () => {
               </span>
 
               <p className="text-green-400 text-2xl font-semibold mb-1">
-                ৳{product.price_min} - {product.price_max}
+                ৳{product.price_min} -{" "}
+                {product.price_max || product.price_min + "+"}
               </p>
               <p className="text-gray-500 text-sm mb-6">Price range</p>
 
@@ -159,7 +161,7 @@ const ProductDetails = () => {
             </div>
 
             {/* Fancy Gradient Button */}
-            <Link to={`/createBid/${product._id}`}>
+            <Link to={`/createBid/${product._id}`} state={location.pathname}>
               <button
                 className="w-full py-3 rounded-lg text-white font-semibold 
                        bg-linear-to-r from-purple-600 to-pink-500

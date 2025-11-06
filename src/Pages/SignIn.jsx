@@ -6,6 +6,7 @@ import Container from "../Components/Container";
 import { Link, Navigate, useLocation, useNavigate } from "react-router";
 import { motion } from "motion/react";
 import Loader from "../Components/Loader";
+import toast from "react-hot-toast";
 
 const SignIn = () => {
   const { loading, setLoading, user, setUser, googleSignIn } =
@@ -17,7 +18,7 @@ const SignIn = () => {
   const { state } = useLocation();
 
   if (loading) {
-    return <Loader></Loader>
+    return <Loader></Loader>;
   }
 
   if (user) {
@@ -36,12 +37,15 @@ const SignIn = () => {
         setLoading(false);
         navigate("/");
       })
-      .catch((e) => console.log(e.code));
+      .catch((e) => toast.error(e.code));
   };
 
   const handleSignIn = (e) => {
     e.preventDefault();
-    console.log("Email Sign In", { email, password });
+
+    toast("Sign In not ready, use Google Sign-In", {
+      icon: "⚠️",
+    });
   };
 
   return (

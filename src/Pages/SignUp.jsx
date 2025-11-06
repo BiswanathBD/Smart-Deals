@@ -5,6 +5,7 @@ import { AuthContext } from "../Context/AuthContext";
 import Container from "../Components/Container";
 import { Link } from "react-router";
 import { motion } from "motion/react";
+import toast from "react-hot-toast";
 
 const SignUp = () => {
   const { googleSignIn } = useContext(AuthContext);
@@ -28,17 +29,20 @@ const SignUp = () => {
 
   const handleGoogleSignIn = () => {
     googleSignIn()
-      .then((result) => console.log("Signed in with Google:", result.user))
-      .catch((e) => console.log(e.code));
+      .then(() => {})
+      .catch((e) => toast.error(e.code));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!agreeTerms) {
-      alert("Please agree to the Terms and Conditions.");
+      toast.error("Please agree to the Terms and Conditions.");
       return;
     }
-    console.log("Form submitted:", form);
+
+    toast("Sign Up not ready, use Google Sign-In", {
+      icon: "⚠️",
+    });
   };
 
   return (
@@ -198,7 +202,6 @@ const SignUp = () => {
               </button>
             </form>
 
-            {/* OR divider */}
             <div className="flex items-center my-5 text-white/50">
               <hr className="flex-1 border-white/20" />
               <span className="px-3">or</span>
@@ -210,7 +213,7 @@ const SignUp = () => {
               onClick={handleGoogleSignIn}
               className="w-full py-2 rounded-lg bg-linear-to-r from-[#ac46ff33] to-[#ffc0cb33] text-white font-semibold flex items-center justify-center gap-3"
             >
-              <FcGoogle size={24} /> Sign up with Google
+              <FcGoogle size={24} /> Sign in with Google
             </button>
 
             {/* Already have account */}

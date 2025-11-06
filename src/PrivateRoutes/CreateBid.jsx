@@ -1,6 +1,6 @@
 import React, { use, useEffect, useState } from "react";
 import Container from "../Components/Container";
-import { Link, useNavigate, useParams } from "react-router";
+import { Link, useLocation, useNavigate, useParams } from "react-router";
 import { server } from "../server";
 import toast from "react-hot-toast";
 import productImage from "../assets/product.webp";
@@ -16,6 +16,7 @@ const CreateBid = () => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const [bid, setBid] = useState("");
+  const location = useLocation();
 
   useEffect(() => {
     fetch(`${server}/products/${id}`)
@@ -68,7 +69,7 @@ const CreateBid = () => {
           showConfirmButton: false,
           timer: 1500,
         });
-        navigate("/myBids");
+        navigate(location.state);
       });
   };
 

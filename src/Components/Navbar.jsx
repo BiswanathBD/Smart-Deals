@@ -4,6 +4,7 @@ import { FaBasketShopping } from "react-icons/fa6";
 import { RiMenuFold3Line, RiMenuFold4Line } from "react-icons/ri";
 import { Link, NavLink } from "react-router";
 import { AuthContext } from "../Context/AuthContext";
+import toast from "react-hot-toast";
 
 const Navbar = () => {
   const [show, setShow] = useState(false);
@@ -83,7 +84,7 @@ const Navbar = () => {
         setUser(null);
         setShowProfile(false);
       })
-      .catch((e) => console.log(e.code));
+      .catch((e) => toast.error(e.code));
   };
 
   return (
