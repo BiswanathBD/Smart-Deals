@@ -2,16 +2,20 @@ import React from "react";
 import { Link } from "react-router";
 import { motion } from "motion/react";
 
-const NotFound = () => {
+const ErrorPage = ({
+  title = "Error",
+  message = "Something went wrong.",
+  code,
+}) => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen text-center px-6">
       <motion.h1
         initial={{ scale: 0.5, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
-        className="text-8xl md:text-9xl font-extrabold text-transparent bg-clip-text bg-linear-to-r from-pink-500 to-purple-600 drop-shadow-[0_0_25px_rgba(236,72,153,0.7)]"
+        className="text-8xl md:text-9xl font-extrabold text-transparent bg-clip-text bg-linear-to-r from-pink-500 to-purple-600 drop-shadow-[0_0_25px_rgba(236,72,153,0.7)] animate-pulse"
       >
-        404
+        {code || "!"}
       </motion.h1>
 
       <motion.h2
@@ -20,17 +24,16 @@ const NotFound = () => {
         transition={{ delay: 0.2, duration: 0.5 }}
         className="text-2xl md:text-3xl font-semibold text-pink-400/80 mt-4"
       >
-        Oops! Page Not Found
+        {title}
       </motion.h2>
 
       <motion.p
         initial={{ y: 20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
+        animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.4, duration: 0.5 }}
         className="text-purple-400 mt-3 max-w-md"
       >
-        The page you’re looking for doesn’t exist or has been moved. Let’s get
-        you back to safety.
+        {message}
       </motion.p>
 
       <motion.div
@@ -52,4 +55,4 @@ const NotFound = () => {
   );
 };
 
-export default NotFound;
+export default ErrorPage;
