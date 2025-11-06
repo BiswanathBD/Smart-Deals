@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import Container from "../Components/Container";
 import { AuthContext } from "../Context/AuthContext";
 import { Link, useNavigate, useParams } from "react-router";
@@ -8,6 +8,7 @@ import Loader from "../Components/Loader";
 import productImage from "../assets/product.webp";
 
 const EditProduct = () => {
+  const { user } = use(AuthContext);
   const { id } = useParams();
   const [product, setProduct] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -25,9 +26,7 @@ const EditProduct = () => {
       .catch((error) => toast.error(error));
   }, [id]);
 
-  if (loading) {
-    return <Loader></Loader>;
-  }
+  if (loading) return <Loader></Loader>;
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -54,13 +53,21 @@ const EditProduct = () => {
       method: "PUT",
       headers: {
         "content-type": "application/json",
+        authorization: `Bearer ${user.accessToken}`,
       },
       body: JSON.stringify(editedProduct),
     })
-      .then((res) => res.json())
-      .then(() => {
-        toast.success("Product updated successfully!");
-        navigate("/myProducts");
+      .then((res) => {
+        if (res.status === 401) {
+          toast.error("Authorization Error!");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        if (data.acknowledged) {
+          toast.success("Product updated successfully!");
+          navigate("/myProducts");
+        }
       })
       .catch(() => {
         toast.error("Failed to update product.");

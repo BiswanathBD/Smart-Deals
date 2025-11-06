@@ -58,19 +58,28 @@ const CreateBid = () => {
       method: "POST",
       headers: {
         "content-type": "application/json",
+        authorization: `Bearer ${user.accessToken}`,
       },
       body: JSON.stringify(newBid),
     })
-      .then((res) => res.json())
-      .then(() => {
-        Swal.fire({
-          title: "Bid Submitted!",
-          icon: "success",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        navigate(location.state);
-      });
+      .then((res) => {
+        if (res.status === 401) {
+          toast.error("Authorization Error!");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        if (data.insertedId) {
+          Swal.fire({
+            title: "Bid Submitted!",
+            icon: "success",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          navigate(location.state);
+        }
+      })
+      .catch((error) => toast.error(error));
   };
 
   return (

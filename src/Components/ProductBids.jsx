@@ -9,18 +9,27 @@ import { AuthContext } from "../Context/AuthContext";
 
 const ProductBids = ({ product }) => {
   const { user } = useContext(AuthContext);
-  const [bids, setBids] = useState([]);
+  const [bids, setBids] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`${server}/bids/product/${product._id}`)
-      .then((res) => res.json())
+    fetch(`${server}/bids/product/${product._id}`, {
+      headers: {
+        authorization: `Bearer ${user.accessToken}`,
+      },
+    })
+      .then((res) => {
+        if (res.status === 401) {
+          toast.error("Authorization Error!");
+        }
+        return res.json();
+      })
       .then((data) => {
         setBids(data);
         setLoading(false);
       })
       .catch((error) => toast.error(error));
-  }, [product]);
+  }, [product, user]);
 
   if (loading) return <Loader />;
 
@@ -82,7 +91,8 @@ const ProductBids = ({ product }) => {
                         <span className="text-purple-500 font-semibold">
                           Price:
                         </span>{" "}
-                        ৳ {product.price_min} - {product.price_max || product.price_min + "+"}
+                        ৳ {product.price_min} -{" "}
+                        {product.price_max || product.price_min + "+"}
                       </p>
                     </div>
                   </div>
@@ -96,7 +106,9 @@ const ProductBids = ({ product }) => {
                     />
                     <div>
                       <p>{bid.seller_name}</p>
-                      <p className="text-pink-400/50 text-xs">{bid.seller_email}</p>
+                      <p className="text-pink-400/50 text-xs">
+                        {bid.seller_email}
+                      </p>
                     </div>
                   </div>
                 </td>
@@ -163,9 +175,12 @@ const ProductBids = ({ product }) => {
 
             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
               <div>
-                <p className="font-semibold text-xl text-purple-400">{product.title}</p>
+                <p className="font-semibold text-xl text-purple-400">
+                  {product.title}
+                </p>
                 <p className="text-sm text-gray-400">
-                  ৳ {product.price_min} - {product.price_max || product.price_min + "+"}
+                  ৳ {product.price_min} -{" "}
+                  {product.price_max || product.price_min + "+"}
                 </p>
               </div>
               <p className="text-xl text-pink-400 font-bold">

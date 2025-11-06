@@ -14,9 +14,20 @@ const MyBid = () => {
 
   useEffect(() => {
     if (!user?.email) return;
-    fetch(`${server}/bids/user/${user.email}`)
-      .then((res) => res.json())
+    fetch(`${server}/bids/user/${user.email}`, {
+      headers: {
+        authorization: `Bearer ${user.accessToken}`,
+      },
+    })
+      .then((res) => {
+        if (res.status === 401) {
+          throw new Error("Authorization Error!");
+        }
+        return res.json();
+      })
       .then((data) => {
+        console.log(data);
+
         setBids(data);
         setLoading(false);
       })

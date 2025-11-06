@@ -15,14 +15,23 @@ const MyProducts = () => {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    fetch(`${server}/myProducts/${user.email}`)
-      .then((res) => res.json())
+    fetch(`${server}/myProducts/${user.email}`, {
+      headers: {
+        authorization: `Bearer ${user.accessToken}`,
+      },
+    })
+      .then((res) => {
+        if (res.status === 401) {
+          toast.error("Authorization Error!");
+          throw new Error();
+        }
+        return res.json();
+      })
       .then((data) => {
         setProducts(data);
         setLoading(false);
-      })
-      .catch((error) => toast.error(error));
-  }, [user.email]);
+      });
+  }, [user]);
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -37,19 +46,31 @@ const MyProducts = () => {
       color: "#fff",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`${server}/products/${id}`, { method: "DELETE" })
-          .then((res) => res.json())
-          .then(() => {
-            setProducts(products.filter((p) => p._id !== id));
-            Swal.fire({
-              title: "Deleted!",
-              text: "Your product has been deleted.",
-              icon: "success",
-              showConfirmButton: false,
-              timer: 1200,
-              background: "#0f0f16",
-              color: "#fff",
-            });
+        fetch(`${server}/products/${id}`, {
+          method: "DELETE",
+          headers: {
+            authorization: `Bearer ${user.accessToken}`,
+          },
+        })
+          .then((res) => {
+            if (res.status === 401) {
+              toast.error("Authorization Error!");
+            }
+            return res.json();
+          })
+          .then((data) => {
+            if (data.acknowledged) {
+              setProducts(products.filter((p) => p._id !== id));
+              Swal.fire({
+                title: "Deleted!",
+                text: "Your product has been deleted.",
+                icon: "success",
+                showConfirmButton: false,
+                timer: 1200,
+                background: "#0f0f16",
+                color: "#fff",
+              });
+            }
           })
           .catch((error) => toast.error(error));
       }
@@ -138,7 +159,9 @@ const MyProducts = () => {
                         {product.title}
                       </Link>
                     </td>
-                    <td className="px-4 py-2 text-center">{product.category}</td>
+                    <td className="px-4 py-2 text-center">
+                      {product.category}
+                    </td>
                     <td className="px-4 py-2 text-center">
                       ৳{product.price_min} - ৳
                       {product.price_max || product.price_min + "+"}
@@ -216,13 +239,11 @@ const MyProducts = () => {
                     >
                       {product.title}
                     </Link>
-                    <p className="text-gray-400 text-sm">
-                      {product.category}
-                    </p>
+                    <p className="text-gray-400 text-sm">{product.category}</p>
                   </div>
                 </div>
 
-                <div className="flex justify-between items-center">
+                <div className="flex justify-between items-center my-2">
                   <p className="text-pink-400 font-bold text-lg">
                     ৳{product.price_min} - ৳
                     {product.price_max || product.price_min + "+"}

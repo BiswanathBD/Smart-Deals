@@ -11,9 +11,7 @@ const CreateProduct = () => {
   const [condition, setCondition] = useState("Brand New");
   const navigate = useNavigate();
 
-  if (!user) {
-    return <Loader></Loader>;
-  }
+  if (!user) return <Loader />;
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -48,13 +46,21 @@ const CreateProduct = () => {
       method: "POST",
       headers: {
         "content-type": "application/json",
+        authorization: `Bearer ${user.accessToken}`,
       },
       body: JSON.stringify(newProduct),
     })
-      .then((res) => res.json())
-      .then(() => {
-        toast.success("Product added");
-        navigate("/myProducts");
+      .then((res) => {
+        if (res.status === 401) {
+          toast.error("Authorization Error!");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        if (data.insertedId) {
+          toast.success("Product added");
+          navigate("/myProducts");
+        }
       })
       .catch((error) => toast.error(error));
   };
@@ -242,7 +248,7 @@ const CreateProduct = () => {
                 Seller Contact
               </label>
               <input
-                value={user.phoneNumber}
+                value={user.phoneNumber || ""}
                 disabled
                 className="w-full bg-gray-800/60 border-gray-700 text-gray-500 cursor-not-allowed rounded-lg px-4 py-2"
               />
