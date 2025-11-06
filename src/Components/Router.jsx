@@ -11,11 +11,13 @@ import CreateProduct from "../PrivateRoutes/CreateProduct";
 import EditProduct from "../PrivateRoutes/EditProduct";
 import CreateBid from "../PrivateRoutes/CreateBid";
 import MyBid from "../PrivateRoutes/MyBid";
+import NotFound from "../Pages/NotFound";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Root></Root>,
+    errorElement: <NotFound></NotFound>,
     children: [
       {
         index: true,
